@@ -7,7 +7,7 @@ var generateMessage = (from, text) => {
 };
 
 var generateLocationMessage = (from, lat, lon) => {
-  console.log("generateLocationMessage",lat);
+  // console.log("generateLocationMessage",lat);
   return {
     from,
     url:`https://google.com/maps?=q${lat},${lon}`,

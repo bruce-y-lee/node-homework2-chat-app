@@ -7,8 +7,8 @@ const {generateMessage, generateLocationMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 
-console.log(__dirname + '../public');
-console.log(publicPath);
+// console.log(__dirname + '../public');
+// console.log(publicPath);
 
 // app.use(express.static(publicPath));
 var app = express();
@@ -41,12 +41,12 @@ io.on('connection', (socket) => {
       console.log(message);
       //send message all client and server
       io.emit('newMessage', generateMessage(message.from,message.text));
-      callback('This is from the server'); //acknowledgement
+      callback(); //acknowledgement
 
     });
 
     socket.on('createLocationMessage', (coords)=>{
-      io.emit('newMessage', generateMessage('Admin',`${coords.latitude},${coords.longitude}`));
+      // io.emit('newMessage', generateMessage('Admin',`${coords.latitude},${coords.longitude}`));
       io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude ,coords.longitude));
     });
 
