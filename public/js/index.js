@@ -4,15 +4,12 @@ socket.on('connect', function() {
     console.log('Connected to Server');
 
 
-    socket.emit('createMessage', {
-      from: 'client',
-      text: 'test message from client',
-      createdAt: new Date().getTime()
-    })
-    // socket.emit('createEmail', {
-    //   to: 'bro@email.com',
-    //   text: 'hey, hey'
-    // });
+    // socket.emit('createMessage', {
+    //   from: 'client',
+    //   text: 'test message from client',
+    //   createdAt: new Date().getTime()
+    // })
+
 });
 
 socket.on('newMessage', function(newMessage) {
