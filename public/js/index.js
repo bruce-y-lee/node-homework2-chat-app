@@ -31,6 +31,18 @@ socket.on('disconnect', function() {
 //   console.log('Got it', data);
 // })
 
+socket.on('newLocationMessage', function(message){
+  var li = jQuery('<li></li>');
+  var a = jQuery('<a target = "_blank">My current location</a>');
+  // var a = jQuery('<a>My current location</a>');
+  console.log("newLocationMessage",message.from, message.url);
+  li.text(`${message.from}: `);
+  a.attr('href', message.url);
+
+  li.append(a);
+  jQuery('#messages').append(li);
+})
+
 
 jQuery('#message-form').on('submit', function(e) {
   e.preventDefault();
@@ -40,8 +52,28 @@ jQuery('#message-form').on('submit', function(e) {
     text: jQuery('[name=message]').val()
   },function(){ //acknowledgement
 
-  })
+  });
 });
+
+var locationButton = jQuery('#send-location');
+// jQuery('#locationButton').on
+locationButton.on('click', function(){
+  if(!navigator.geolocation){
+    return alert('Geolocation not supported by your browser')
+  }
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+    // console.log(position.coords.latitude);
+    socket.emit('createLocationMessage', {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    });
+    // console.log(position.coords.longitude);
+  }, function(){
+    // console.log(e);
+    alert('Unable to fetch location.')
+  })
+})
 //
 // socket.on('newEmail',function(email) {
 //   console.log('New email', email);
