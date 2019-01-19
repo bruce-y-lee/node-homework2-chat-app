@@ -21,8 +21,18 @@ function scrollToBottom() {
 
 
 socket.on('connect', function() {
-    console.log('Connected to Server');
+    // console.log('Connected to Server');
+    var params = jQuery.deparam(window.location.search);
 
+    socket.emit('join', params, function(err) {
+
+      if(err){
+        alert(err);
+        window.location.href = '/';
+      }else{
+        console.log('No error');
+      }
+    });
 
     // socket.emit('createMessage', {
     //   from: 'client',
@@ -54,6 +64,18 @@ socket.on('newMessage', function(message) {
 socket.on('disconnect', function() {
   console.log('Disconnected from server');
 });
+
+socket.on('updateUserList', function(users) {
+  console.log('Users list', users);
+  var ul = jQuery('<ul></ul>');
+
+  users.forEach(function(user) {
+    ul.append(jQuery('<li></li>').text(user));
+  });
+
+  jQuery('#users').html(ul);
+
+})
 
 socket.on('newLocationMessage', function(message){
   var formattedTime = moment(message.createdAt).format('h:mm a');
